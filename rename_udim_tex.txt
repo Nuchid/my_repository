@@ -1,0 +1,79 @@
+import os
+import glob
+
+###Search UDIMnumber on file name
+def Search_four_Digits(src_name):
+    dgs=[]###list of 4digits searched
+    cnt=0###count of digits
+    dg=[]###array of digits
+    ###Serching digits on File name
+    for c in src_name:
+        if c.isdigit()==True and cnt<4:
+            cnt=cnt+1
+            dg=dg+[c]
+        elif c.isdigit()==False and cnt<4:
+            cnt=0
+            dg=[]
+        elif c.isdigit()==True and cnt==4:###UDIM number dont have 5th digit
+            cnt=0
+            dg=[]
+        elif c.isdigit()==False and cnt==4:###UDIM number dont have 5th digit
+            cnt=0
+            dgs=dgs+[dg]
+            dg=[]
+    if cnt==4:###if 4digits exist in end of str
+        dgs=dgs+[dg]
+    if len(dgs)==1:###rule out multiple 4digits
+        u_s=''.join(dgs[0])###array to str,UDIM_str
+        u_n=int(u_s)###str to int,UDIM_num
+        if u_n>=1001 and u_n<=1100:###within UDIM number
+            return u_s
+        else:
+            return 0
+    else:
+        return 0
+
+###Arrange filename along SP UDIM naming rule
+def Arrange_Tex_Name(u_s,src_name):
+    if u_s!=0:
+        (p,u_s,s)=src_name.rpartition(u_s)
+        p=p.strip('._')
+        s=s.strip('_')
+        if p!='' and s=='':
+            dst_name=p+'.'+u_s
+        elif p=='' and s!='':
+            dst_name=s+'.'+u_s
+        else:
+            dst_name=p+'_'+s+'.'+u_s
+        return dst_name
+    else:
+        return 0
+
+
+
+###Main Block
+src_path_list=glob.glob('./*.png')
+for src_path in src_path_list:
+	src_name=os.path.basename(src_path)
+	src_name=os.path.splitext(src_name)[0]###remove extention".png"
+	src_dir=os.path.dirname(src_path)
+	###Search UDIM texture files
+	u_s=Search_four_Digits(src_name)###Get UDIM_str
+	if u_s!=0:
+		print(src_dir+"/"+src_name+".png have UDMI number,"+u_s)
+	else:
+		print(src_dir+"/"+src_name+".png is not UDMI texture.\n")
+        
+	###Process File name
+	dst_name=Arrange_Tex_Name(u_s,src_name)
+	if dst_name!=0:
+		print(src_name+" will change to "+dst_name+'\n')
+
+	###Rename Path to retrieved new Path
+	if dst_name!=0:
+		dst_name=dst_name+'.png'
+		dst_path=os.path.join(src_dir,dst_name)
+		print(src_path)
+		print("is Renamed to ")
+		print(dst_path+'\n')
+		os.rename(src_path,dst_path)
