@@ -1,1 +1,13 @@
-短めのコード集
+###短めのコード集
+
+###for Rigging
+
+#active Armatureに含まれるboneの一覧をコンソールに出力する。
+###Output bone's names to Console
+obj = bpy.context.active_object
+if obj.type == 'ARMATURE':
+    for bone in obj.data.bones:
+        print(bone.name)
+        
+
+
