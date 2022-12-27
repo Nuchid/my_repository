@@ -8,6 +8,24 @@ obj = bpy.context.active_object
 if obj.type == 'ARMATURE':
     for bone in obj.data.bones:
         print(bone.name)
+
+#selected Armatureに含まれるboneの名称をViewPort上で見えるようにする。
+###Show bone's name on ViewPort
+for amt in bpy.context.selected_objects:
+    amt.data.show_names = True
+    
+
+#selected Armatureに含まれるbone名の".00"を"_0"に置き換える。※"~.0xx"に注意。
+###Remove ".00" and Add "_0"
+for amt in bpy.context.selected_objects:
+    if amt.type == 'ARMATURE':
+        for bn in amt.data.bones:
+            bname = bn.name
+            if ".00" in bname:
+                (forenm,dtzrzr,rearnm) = bname.rpartition(".00")
+                bn.name = forenm + "_0" + rearnm
+
+
         
 
 
