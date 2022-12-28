@@ -9,11 +9,15 @@ if obj.type == 'ARMATURE':
     for bone in obj.data.bones:
         print(bone.name)
 
+
+
 #selected Armatureに含まれるboneの名称をViewPort上で見えるようにする。
 ###Show bone's name on ViewPort
 for amt in bpy.context.selected_objects:
     amt.data.show_names = True
     
+
+
 
 #selected Armatureに含まれるbone名の".00"を"_0"に置き換える。※"~.0xx"に注意。
 ###Remove ".00" and Add "_0"
@@ -26,6 +30,30 @@ for amt in bpy.context.selected_objects:
                 bn.name = forenm + "_0" + rearnm
 
 
-        
+
+
+#selected Armatureに含まれるBone名に回転軸を示すsuffixを追加する関数
+###Function adds name showing rotation axis
+def Add_Rot_Vrt(bn):
+    bname = bn.name
+    if (bname[-2:] == ".R" or bname[-2:] == ".L"):
+        bn.name = bname[:-2] + "_vrt" + bname[-2:]
+    else :
+        bn.name = bname + "_vrt"
+
+def Add_Rot_Hrz(bn):
+    bname = bn.name
+    if (bname[-2:] == ".R" or bname[-2:] == ".L"):
+        bn.name = bname[:-2] + "_hrz" + bname[-2:]
+    else :
+        bn.name = bname + "_hrz"
+
+def Add_Rot_Crn(bn):
+    bname = bn.name
+    if (bname[-2:] == ".R" or bname[-2:] == ".L"):
+        bn.name = bname[:-2] + "_crn" + bname[-2:]
+    else :
+        bn.name = bname + "_crn"
+          
 
 
