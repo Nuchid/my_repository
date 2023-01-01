@@ -57,3 +57,28 @@ def Add_Rot_Crn(bn):
           
 
 
+#selected Armatureに含まれるBoneの回転軸を名前に従って制限する。（上の続き）
+###set rotation axis corresponding to suffix
+for amt in bpy.context.selected_objects:
+    for bn in amt.pose.bones:
+        if "_vrt" in bn.name:
+            bn.lock_rotation[0:] = [0,1,1]
+            bn.lock_ik_x = False
+            bn.lock_ik_y = True
+            bn.lock_ik_z = True
+        elif "_hrz" in bn.name:
+            bn.lock_rotation[0:] = [1,0,1]
+            bn.lock_ik_x = True
+            bn.lock_ik_y = False
+            bn.lock_ik_z = True
+        elif "_crn" in bn.name:
+            bn.lock_rotation[0:] = [1,1,0]
+            bn.lock_ik_x = True
+            bn.lock_ik_y = True
+            bn.lock_ik_z = False
+        else :
+            bn.lock_rotation[0:] = [1,1,1]
+            bn.lock_ik_x = True
+            bn.lock_ik_y = True
+            bn.lock_ik_z = True
+                  
