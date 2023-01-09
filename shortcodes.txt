@@ -81,4 +81,13 @@ for amt in bpy.context.selected_objects:
             bn.lock_ik_x = True
             bn.lock_ik_y = True
             bn.lock_ik_z = True
-                  
+
+
+
+#selected bonesの回転軸制限を解除する
+###Unlock axis limitation on selected Pose Bones    
+for bn in bpy.context.selected_pose_bones:
+    bn.lock_rotation[0:] = [0,0,0]
+    bn.lock_ik_x = False
+    bn.lock_ik_y = False
+    bn.lock_ik_z = False
